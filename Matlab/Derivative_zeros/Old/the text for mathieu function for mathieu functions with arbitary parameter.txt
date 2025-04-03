@@ -1,0 +1,17 @@
+These routines are calculation routines for Mathieu functions with arbitrary parameters (positive, Negative and Complex)
+
+The package includes the following subroutines: 
+fcoef1---Compute the expanded coefficients of Series
+dbesselj----Compute the derivatives of Bessel functions; 
+dbessely----Compute the derivatives of Bessel function of second kind; 
+G_mathieuq----Compute the angular mathieu functions (parameter q is vector);
+G_dmathieuq----Compute the derivatives of angular Mathieu functions(parameter q is vector);
+G_mmathieu1q----Compute the radial Mathieu functions of the first kind (parameter q is vector);
+G_dmmathieu1q----Compute the derivatives of radial Mathieu functions of the first kind (parameter q is vector);
+G_mmathieu2q----Compute the radial Mathieu functions of the second kind (parameter q  is vector);
+G_dmmathieu2q----Compute the derivatives of radial Mathieu functions of the second kind (parameter q is vector);
+G_mmathieu3q----Compute the radial Mathieu functions of the third kind (parameter q  is vector);
+G_dmmathieu3q----Compute the derivatives of radial Mathieu functions of the third kind (parameter q is vector);
+G_mmathieu4q----Compute the radial Mathieu functions of the fourth kind (parameter q is vector);
+G_dmmathieu4q----Compute the derivatives of radial Mathieu functions of the fourth kind (parameter q is vector).
+

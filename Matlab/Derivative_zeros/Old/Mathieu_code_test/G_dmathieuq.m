@@ -1,0 +1,142 @@
+function csd=G_dmathieuq(kf,m,q,xr,csd,varargin);
+%     ===============================================================
+%     Purpose: Compute the derivative of  Angular Mathieu functions cem'(q,xr)and sem'(q,xr)  
+%  
+%     Input :  KF  --- Function code
+%     KF=1 for computing even Angular Mathieu function: cem'(q,xr)
+%     KF=2 for computing odd Angular Mathieu function: sem'(q,xr)
+%     m   --- Order of Mathieu functions
+%     q   --- Vector Parameter of Mathieu functions(q can be Positive, Negative or Complex number)
+%     x   --- Argument of Mathieu functions(in radian)
+%     Output:  csd--- cem'(q,xr)or sem'(q,xr)
+%    
+%    Editor: Da Ma, Southeast University, China
+%     ===============================================================
+kd=[];a=[];fg=[];
+ lq=length(q);
+ fg=zeros(lq,251);
+eps=1.0d-14;
+if(kf == 1&m == 2.*fix(m./2))kd=1; end;
+if(kf == 1&m ~= 2.*fix(m./2))kd=2; end;
+if(kf == 2&m ~= 2.*fix(m./2))kd=3; end;
+if(kf == 2&m == 2.*fix(m./2))kd=4; end;
+
+for k=1:lq
+ if(abs(q(k)) <= 1.0d0);
+     qm(k)=7.5+56.1.*sqrt(abs(q(k)))-134.7.*abs(q(k))+90.7.*sqrt(abs(q(k))).*abs(q(k));
+       else;
+         qm(k)=17.0+3.1.*sqrt(abs(q(k)))-.126.*abs(q(k))+.0037.*sqrt(abs(q(k))).*abs(q(k));
+ end;
+   km(k)=fix(qm(k)+0.5.*fix(m));
+   
+end
+
+for k=1:lq
+fc=fcoef1(kd,fix(m),q(k)).';
+fg([k],1:length(fc))=fc;
+end
+ic=fix(fix(m)./2)+1;
+%====================================================
+%computate the devitation of angle mathieu function
+%====================================================
+csd=zeros(1,lq);
+for vm=1:lq
+     if imag(q(vm))==0&real(q(vm))<0
+        csd(vm)=nan;
+     else
+       for  k=1:km(vm);
+          if(kd == 1);
+               csd(vm)=csd(vm)-(2.*k-2).*fg(vm,k).*sin((2.*k-2).*xr);
+               elseif(kd == 2);
+                    csd(vm)=csd(vm)-(2.*k-1).*fg(vm,k).*sin((2.*k-1).*xr);
+                    elseif(kd == 3);
+                          csd(vm)=csd(vm)+(2.*k-1).*fg(vm,k).*cos((2.*k-1).*xr);
+               elseif(kd == 4);
+                    csd(vm)=csd(vm)+2.0d0.*k.*fg(vm,k).*cos(2.*k.*xr);
+           end;
+      if(k >= ic&abs(fg(vm,k))< abs(csd(vm)).*eps)
+          break; 
+      end;
+   end;
+     end
+end
+
+return;
+end
+
+
+function fc=fcoef1(kd,m,q,fc,varargin);
+%     =====================================================
+%     Purpose: Compute expansion coefficients for Angular and Radial Mathieu functions 
+%     Input :  m  --- Order of Mathieu functions
+%     q  --- Parameter of Mathieu functions (q can be Positive, Negative or Complex number)
+%     KD --- Case code
+%     KD=1 for cem(x,q,m = 0,2,4,...)
+%     KD=2 for cem(x,q,m = 1,3,5,...)
+%     KD=3 for sem(x,q,m = 1,3,5,...)
+%     KD=4 for sem(x,q,m = 2,4,6,...)
+%     A  --- Characteristic value of Mathieu functions for given m and q
+%     Output:  FC(k)--- Expansion coefficients of Mathieu
+%     functions(k= 1,2,...,KM)
+%     FC(1),FC(2),FC(3),... correspond to
+%     A0,A2,A4,... for KD=1 case, A1,A3,
+%     A5,... for KD=2 case, B1,B3,B5,...
+%     for KD=3 case and B2,B4,B6,... for
+%     KD=4 case
+%
+%     Editor: Da Ma, Southeast University, China
+%     =====================================================
+    if(abs(q) <= 1.0d0);
+    qm=7.5+56.1.*sqrt(abs(q))-134.7.*abs(q)+90.7.*sqrt(abs(q)).*abs(q);
+    else;
+    qm=17.0+3.1.*sqrt(abs(q))-.126.*abs(q)+.0037.*sqrt(abs(q)).*abs(q);
+    end;
+    km=fix(qm+0.5.*fix(m));
+    n=km;
+    if kd==1
+     e1=q.*ones(n,1);e2=zeros(n,1);e3=q.*ones(n,1);
+      for n=1:km
+       e2(n,1)=(2*(n-1))^2;
+      end
+      s3=spdiags([e1,e2,e3],[-1,0,1],n,n);
+      s3(1,1)=eps;
+      s3(2,1)=2*q;
+      s3;
+     [v,d]=eig(full(s3));
+
+  fc=v(:,(m+2)/2)./sqrt(1+abs(v(1,(m+2)/2))^2);
+elseif kd==2
+   e1=q.*ones(n,1);e2=zeros(n,1);e3=q.*ones(n,1);
+   for n=1:km
+       e2(n,1)=(2*n-1)^2;
+   end
+   s3=spdiags([e1,e2,e3],[-1,0,1],n,n);
+  s3(1,1)=1+q;
+  [v,d]=eig(full(s3));
+ fc= v(:,(m+1)/2);
+elseif kd==3   
+   e1=q.*ones(n,1);e2=zeros(n,1);e3=q.*ones(n,1);
+   for n=1:km
+       e2(n,1)=(2*n-1)^2;
+   end
+   s3=spdiags([e1,e2,e3],[-1,0,1],n,n);
+  s3(1,1)=1-q;
+  [v,d]=eig(full(s3));
+fc=v(:,(m+1)/2);
+elseif kd==4
+   e1=q.*ones(n,1);e2=zeros(n,1);e3=q.*ones(n,1);
+   for n=1:km
+       e2(n,1)=(2*n)^2;
+   end
+   s3=spdiags([e1,e2,e3],[-1,0,1],n,n);
+ 
+  [v,d]=eig(full(s3));
+ fc= v(:,m/2);
+  
+    end
+if real(fc(1))<0
+      fc=-fc;
+end
+
+return;
+end

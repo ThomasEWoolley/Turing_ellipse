@@ -1,0 +1,26 @@
+These routines are the improved calculation routines for Mathieu functions with positive parameters based on Ben Barrowes' direct translation, performed using f2matlab, of the original FORTRAN-77 implementation of "Computation of Special Functions." 
+
+The package includes the following subroutines: 
+dbesselj----Compute the derivatives of Bessel functions; 
+dbessely----Compute the derivatives of Bessel function of second kind; 
+mathieu----Compute the angular mathieu functions (argument is vector);
+dmathieu----Compute the derivatives of angular Mathieu functions(argument is vector);
+mmathieu1----Compute the radial Mathieu functions of the first kind (argument is vector);
+dmmathieu1----Compute the derivatives of radial Mathieu functions of the first kind (argument is vector);
+mmathieu2----Compute the radial Mathieu functions of the second kind (argument is vector);
+dmmathieu2----Compute the derivatives of radial Mathieu functions of the second kind (argument is vector);
+mmathieu3----Compute the radial Mathieu functions of the third kind (argument is vector);
+dmmathieu3----Compute the derivatives of radial Mathieu functions of the third kind (argument is vector);
+mmathieu4----Compute the radial Mathieu functions of the fourth kind (argument is vector);
+dmmathieu4----Compute the derivatives of radial Mathieu functions of the fourth kind (argument is vector);
+mathieuq----Compute the angular mathieu functions (parameter q is vector);
+dmathieuq----Compute the derivatives of angular Mathieu functions(parameter q is vector);
+mmathieu1q----Compute the radial Mathieu functions of the first kind (parameter q is vector);
+dmmathieu1q----Compute the derivatives of radial Mathieu functions of the first kind (parameter q is vector);
+mmathieu2q----Compute the radial Mathieu functions of the second kind (parameter q  is vector);
+dmmathieu2q----Compute the derivatives of radial Mathieu functions of the second kind (parameter q is vector);
+mmathieu3q----Compute the radial Mathieu functions of the third kind (parameter q  is vector);
+dmmathieu3q----Compute the derivatives of radial Mathieu functions of the third kind (parameter q is vector);
+mmathieu4q----Compute the radial Mathieu functions of the fourth kind (parameter q is vector);
+dmmathieu4q----Compute the derivatives of radial Mathieu functions of the fourth kind (parameter q is vector);
+
